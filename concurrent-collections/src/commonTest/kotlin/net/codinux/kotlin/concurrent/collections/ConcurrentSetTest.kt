@@ -6,8 +6,7 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isTrue
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.withContext
-import net.codinux.kotlin.concurrent.test.TestConstants
+import net.codinux.kotlin.concurrent.test.TestConstants.executeOnDifferentThread
 import kotlin.test.Test
 
 class ConcurrentSetTest {
@@ -16,7 +15,7 @@ class ConcurrentSetTest {
     fun add() = runTest {
         val underTest = ConcurrentSet<String>()
 
-        withContext(TestConstants.TestDispatcher) {
+        executeOnDifferentThread {
             assertThat(underTest.add("One")).isTrue()
         }
 
@@ -28,7 +27,7 @@ class ConcurrentSetTest {
         val underTest = ConcurrentSet<String>()
         val expectedItems = IntRange(1, 1000).map { "Item $it" }
 
-        withContext(TestConstants.TestDispatcher) {
+        executeOnDifferentThread {
             expectedItems.forEach { item ->
                 launch {
                     assertThat(underTest.add(item)).isTrue()
@@ -43,7 +42,7 @@ class ConcurrentSetTest {
     fun contains() = runTest {
         val underTest = ConcurrentSet<String>()
 
-        withContext(TestConstants.TestDispatcher) {
+        executeOnDifferentThread {
             assertThat(underTest.add("One")).isTrue()
         }
 
@@ -55,7 +54,7 @@ class ConcurrentSetTest {
         val underTest = ConcurrentSet<String>()
         val expectedItems = IntRange(1, 1000).map { "Item $it" }
 
-        withContext(TestConstants.TestDispatcher) {
+        executeOnDifferentThread {
             expectedItems.forEach { item ->
                 launch {
                     assertThat(underTest.add(item)).isTrue()
@@ -71,7 +70,7 @@ class ConcurrentSetTest {
         val underTest = ConcurrentSet<String>()
         underTest.add("One")
 
-        withContext(TestConstants.TestDispatcher) {
+        executeOnDifferentThread {
             assertThat(underTest.remove("One")).isTrue()
         }
 
@@ -83,7 +82,7 @@ class ConcurrentSetTest {
         val underTest = ConcurrentSet<String>()
         underTest.add("One")
 
-        withContext(TestConstants.TestDispatcher) {
+        executeOnDifferentThread {
             underTest.clear()
         }
 

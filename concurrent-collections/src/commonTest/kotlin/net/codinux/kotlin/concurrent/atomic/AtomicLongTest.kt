@@ -3,8 +3,7 @@ package net.codinux.kotlin.concurrent.atomic
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.withContext
-import net.codinux.kotlin.concurrent.test.TestConstants
+import net.codinux.kotlin.concurrent.test.TestConstants.executeOnDifferentThread
 import kotlin.test.Test
 
 class AtomicLongTest {
@@ -13,7 +12,7 @@ class AtomicLongTest {
     fun changeValue() = runTest {
         val underTest = AtomicLong(7)
 
-        withContext(TestConstants.TestDispatcher) {
+        executeOnDifferentThread {
             underTest.set(42)
         }
 
@@ -26,7 +25,7 @@ class AtomicLongTest {
 
         val underTest = AtomicLong(initialValue)
 
-        withContext(TestConstants.TestDispatcher) {
+        executeOnDifferentThread {
             assertThat(underTest.incrementAndGet()).isEqualTo(initialValue + 1)
         }
 
@@ -39,7 +38,7 @@ class AtomicLongTest {
 
         val underTest = AtomicLong(initialValue)
 
-        withContext(TestConstants.TestDispatcher) {
+        executeOnDifferentThread {
             assertThat(underTest.decrementAndGet()).isEqualTo(initialValue - 1)
         }
 
@@ -53,7 +52,7 @@ class AtomicLongTest {
 
         val underTest = AtomicLong(initialValue)
 
-        withContext(TestConstants.TestDispatcher) {
+        executeOnDifferentThread {
             assertThat(underTest.addAndGet(delta)).isEqualTo(initialValue + delta)
         }
 
@@ -66,7 +65,7 @@ class AtomicLongTest {
 
         val underTest = AtomicLong(initialValue)
 
-        withContext(TestConstants.TestDispatcher) {
+        executeOnDifferentThread {
             assertThat(underTest.getAndIncrement()).isEqualTo(initialValue)
         }
 
@@ -79,7 +78,7 @@ class AtomicLongTest {
 
         val underTest = AtomicLong(initialValue)
 
-        withContext(TestConstants.TestDispatcher) {
+        executeOnDifferentThread {
             assertThat(underTest.getAndDecrement()).isEqualTo(initialValue)
         }
 
@@ -93,7 +92,7 @@ class AtomicLongTest {
 
         val underTest = AtomicLong(initialValue)
 
-        withContext(TestConstants.TestDispatcher) {
+        executeOnDifferentThread {
             assertThat(underTest.getAndAdd(delta)).isEqualTo(initialValue)
         }
 

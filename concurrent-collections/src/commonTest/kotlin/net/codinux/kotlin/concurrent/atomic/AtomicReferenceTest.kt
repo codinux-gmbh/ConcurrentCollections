@@ -3,8 +3,7 @@ package net.codinux.kotlin.concurrent.atomic
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.withContext
-import net.codinux.kotlin.concurrent.test.TestConstants
+import net.codinux.kotlin.concurrent.test.TestConstants.executeOnDifferentThread
 import kotlin.test.Test
 
 class AtomicReferenceTest {
@@ -13,7 +12,7 @@ class AtomicReferenceTest {
     fun changeValueAsynchronously() = runTest {
         val underTest = AtomicReference("Old")
 
-        withContext(TestConstants.TestDispatcher) {
+        executeOnDifferentThread {
             underTest.set("New")
         }
 
@@ -24,7 +23,7 @@ class AtomicReferenceTest {
     fun getAndSet() = runTest {
         val underTest = AtomicReference("Old")
 
-        withContext(TestConstants.TestDispatcher) {
+        executeOnDifferentThread {
             assertThat(underTest.getAndSet("New")).isEqualTo("Old")
         }
 

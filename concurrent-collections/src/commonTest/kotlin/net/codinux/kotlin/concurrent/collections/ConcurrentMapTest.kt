@@ -5,8 +5,7 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isNull
 import assertk.assertions.isTrue
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.withContext
-import net.codinux.kotlin.concurrent.test.TestConstants
+import net.codinux.kotlin.concurrent.test.TestConstants.executeOnDifferentThread
 import kotlin.test.Test
 
 class ConcurrentMapTest {
@@ -15,7 +14,7 @@ class ConcurrentMapTest {
     fun get() = runTest {
         val underTest = ConcurrentMap<String, String>()
 
-        withContext(TestConstants.TestDispatcher) {
+        executeOnDifferentThread {
             assertThat(underTest.put("Key", "Value")).isNull()
         }
 
@@ -26,7 +25,7 @@ class ConcurrentMapTest {
     fun getOrPut() = runTest {
         val underTest = ConcurrentMap<String, String>()
 
-        withContext(TestConstants.TestDispatcher) {
+        executeOnDifferentThread {
             assertThat(underTest.getOrPut("Key") { "Value" }).isEqualTo("Value")
         }
 
@@ -45,7 +44,7 @@ class ConcurrentMapTest {
         val underTest = ConcurrentMap<String, String>()
         underTest.put("Key", "Value")
 
-        withContext(TestConstants.TestDispatcher) {
+        executeOnDifferentThread {
             underTest.put("Key", "Value2")
         }
 
@@ -57,7 +56,7 @@ class ConcurrentMapTest {
         val underTest = ConcurrentMap<String, String>()
         underTest.put("Key", "Value")
 
-        withContext(TestConstants.TestDispatcher) {
+        executeOnDifferentThread {
             assertThat(underTest.remove("Key")).isEqualTo("Value")
         }
 
@@ -76,7 +75,7 @@ class ConcurrentMapTest {
         val underTest = ConcurrentMap<String, String>()
         underTest.put("Key", "Value")
 
-        withContext(TestConstants.TestDispatcher) {
+        executeOnDifferentThread {
             underTest.clear()
         }
 
