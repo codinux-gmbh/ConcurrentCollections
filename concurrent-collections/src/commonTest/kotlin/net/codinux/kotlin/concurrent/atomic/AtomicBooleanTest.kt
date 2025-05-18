@@ -3,9 +3,9 @@ package net.codinux.kotlin.concurrent.atomic
 import assertk.assertThat
 import assertk.assertions.isFalse
 import assertk.assertions.isTrue
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.withContext
+import net.codinux.kotlin.concurrent.test.TestConstants
 import kotlin.test.Test
 
 class AtomicBooleanTest {
@@ -14,7 +14,7 @@ class AtomicBooleanTest {
     fun fromFalseToTrue() = runTest {
         val underTest = AtomicBoolean(false)
 
-        withContext(Dispatchers.Default) {
+        withContext(TestConstants.TestDispatcher) {
             underTest.set(true)
         }
 
@@ -25,7 +25,7 @@ class AtomicBooleanTest {
     fun fromTrueToFalse() = runTest {
         val underTest = AtomicBoolean(true)
 
-        withContext(Dispatchers.Default) {
+        withContext(TestConstants.TestDispatcher) {
             underTest.set(false)
         }
 
