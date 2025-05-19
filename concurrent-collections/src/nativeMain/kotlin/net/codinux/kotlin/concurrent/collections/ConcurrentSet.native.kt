@@ -14,10 +14,6 @@ actual open class ConcurrentSet<E> : MutableSet<E> {
 
 
     override fun add(element: E): Boolean {
-        if (contains(element)) {
-            return false
-        }
-
         var result: Boolean
 
         do {
