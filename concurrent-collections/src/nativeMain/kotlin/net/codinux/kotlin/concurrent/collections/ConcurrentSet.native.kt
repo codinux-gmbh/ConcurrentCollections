@@ -18,14 +18,16 @@ actual open class ConcurrentSet<E> : MutableSet<E> {
             return false
         }
 
+        var result: Boolean
+
         do {
             val existing = atomicSet.value
 
             val updated = existing.toMutableSet()
-            updated.add(element)
+            result = updated.add(element)
         } while (atomicSet.compareAndSet(existing, updated) == false)
 
-        return true
+        return result
     }
 
     override fun addAll(elements: Collection<E>): Boolean {
