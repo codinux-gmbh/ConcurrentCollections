@@ -8,6 +8,7 @@ actual class AtomicBoolean actual constructor(private var value: Boolean) {
         this.value = newValue
     }
 
+
     override fun toString() = value.toString()
 
 }

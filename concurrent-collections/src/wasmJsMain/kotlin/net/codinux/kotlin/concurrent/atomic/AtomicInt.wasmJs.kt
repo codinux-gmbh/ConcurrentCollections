@@ -8,6 +8,7 @@ actual class AtomicInt actual constructor(private var value: Int) {
         this.value = newValue
     }
 
+
     actual fun incrementAndGet() = addAndGet(1)
 
     actual fun decrementAndGet() = addAndGet(-1)
@@ -16,6 +17,7 @@ actual class AtomicInt actual constructor(private var value: Int) {
         this.value += delta
         return get()
     }
+
 
     actual fun getAndIncrement() = getAndAdd(1)
 
@@ -26,6 +28,7 @@ actual class AtomicInt actual constructor(private var value: Int) {
         this.value += delta
         return oldValue
     }
+
 
     override fun toString() = value.toString()
 

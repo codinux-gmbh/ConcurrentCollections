@@ -6,6 +6,7 @@ actual class AtomicReference<T> actual constructor(value: T?) {
 
     private val delegate = AtomicReference(value)
 
+
     actual fun get(): T? = delegate.value
 
     actual fun set(newValue: T?) {
@@ -13,6 +14,7 @@ actual class AtomicReference<T> actual constructor(value: T?) {
     }
 
     actual fun getAndSet(newValue: T?): T? = delegate.getAndSet(newValue)
+
 
     override fun toString() = get().toString()
 

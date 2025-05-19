@@ -16,6 +16,7 @@ actual class AtomicReference<T> actual constructor(private var value: T?) {
         return oldValue
     }
 
+
     override fun toString() = value.toString()
 
 }

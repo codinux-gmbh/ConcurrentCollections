@@ -6,11 +6,13 @@ expect class AtomicLong(value: Long = 0) {
 
     fun set(newValue: Long)
 
+
     fun incrementAndGet(): Long
 
     fun decrementAndGet(): Long
 
     fun addAndGet(delta: Long): Long
+
 
     fun getAndIncrement(): Long
 
