@@ -4,15 +4,15 @@ import kotlin.concurrent.AtomicReference
 
 actual class AtomicReference<T> actual constructor(value: T?) {
 
-    private val impl = AtomicReference(value)
+    private val delegate = AtomicReference(value)
 
-    actual fun get(): T? = impl.value
+    actual fun get(): T? = delegate.value
 
     actual fun set(newValue: T?) {
-        impl.value = newValue
+        delegate.value = newValue
     }
 
-    actual fun getAndSet(newValue: T?): T? = impl.getAndSet(newValue)
+    actual fun getAndSet(newValue: T?): T? = delegate.getAndSet(newValue)
 
     override fun toString() = get().toString()
 

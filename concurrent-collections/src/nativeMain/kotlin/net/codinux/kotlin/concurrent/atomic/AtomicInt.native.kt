@@ -4,25 +4,25 @@ import kotlin.concurrent.AtomicInt
 
 actual class AtomicInt actual constructor(value: Int) {
 
-    private val impl = AtomicInt(value)
+    private val delegate = AtomicInt(value)
 
-    actual fun get() = impl.value
+    actual fun get() = delegate.value
 
     actual fun set(newValue: Int) {
-        impl.value = newValue
+        delegate.value = newValue
     }
 
-    actual fun incrementAndGet() = impl.incrementAndGet()
+    actual fun incrementAndGet() = delegate.incrementAndGet()
 
-    actual fun decrementAndGet() = impl.decrementAndGet()
+    actual fun decrementAndGet() = delegate.decrementAndGet()
 
-    actual fun addAndGet(delta: Int) = impl.addAndGet(delta)
+    actual fun addAndGet(delta: Int) = delegate.addAndGet(delta)
 
-    actual fun getAndIncrement() = impl.getAndIncrement()
+    actual fun getAndIncrement() = delegate.getAndIncrement()
 
-    actual fun getAndDecrement() = impl.getAndDecrement()
+    actual fun getAndDecrement() = delegate.getAndDecrement()
 
-    actual fun getAndAdd(delta: Int): Int = impl.getAndAdd(delta)
+    actual fun getAndAdd(delta: Int): Int = delegate.getAndAdd(delta)
 
     override fun toString() = get().toString()
 

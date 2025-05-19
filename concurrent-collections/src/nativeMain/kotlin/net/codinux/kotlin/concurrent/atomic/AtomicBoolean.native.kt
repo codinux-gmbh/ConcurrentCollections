@@ -4,12 +4,12 @@ import kotlin.concurrent.AtomicReference
 
 actual class AtomicBoolean actual constructor(value: Boolean) {
 
-    private val impl = AtomicReference(value)
+    private val delegate = AtomicReference(value)
 
-    actual fun get() = impl.value
+    actual fun get() = delegate.value
 
     actual fun set(newValue: Boolean) {
-        impl.value = newValue
+        delegate.value = newValue
     }
 
     override fun toString() = get().toString()

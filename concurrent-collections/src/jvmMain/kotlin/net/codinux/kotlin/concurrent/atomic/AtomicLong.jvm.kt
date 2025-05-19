@@ -4,24 +4,24 @@ import java.util.concurrent.atomic.AtomicLong
 
 actual class AtomicLong actual constructor(value: Long) {
 
-    private val impl = AtomicLong(value)
+    private val delegate = AtomicLong(value)
 
-    actual fun get() = impl.get()
+    actual fun get() = delegate.get()
 
-    actual fun set(newValue: Long) = impl.set(newValue)
+    actual fun set(newValue: Long) = delegate.set(newValue)
 
-    actual fun incrementAndGet() = impl.incrementAndGet()
+    actual fun incrementAndGet() = delegate.incrementAndGet()
 
-    actual fun decrementAndGet() = impl.decrementAndGet()
+    actual fun decrementAndGet() = delegate.decrementAndGet()
 
-    actual fun addAndGet(delta: Long) = impl.addAndGet(delta)
+    actual fun addAndGet(delta: Long) = delegate.addAndGet(delta)
 
-    actual fun getAndIncrement() = impl.getAndIncrement()
+    actual fun getAndIncrement() = delegate.getAndIncrement()
 
-    actual fun getAndDecrement() = impl.getAndDecrement()
+    actual fun getAndDecrement() = delegate.getAndDecrement()
 
-    actual fun getAndAdd(delta: Long) = impl.getAndAdd(delta)
+    actual fun getAndAdd(delta: Long) = delegate.getAndAdd(delta)
 
-    override fun toString() = impl.toString()
+    override fun toString() = delegate.toString()
 
 }

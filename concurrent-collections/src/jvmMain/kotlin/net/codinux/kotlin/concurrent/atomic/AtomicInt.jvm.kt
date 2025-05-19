@@ -4,24 +4,24 @@ import java.util.concurrent.atomic.AtomicInteger
 
 actual class AtomicInt actual constructor(value: Int) {
 
-    private val impl = AtomicInteger(value)
+    private val delegate = AtomicInteger(value)
 
-    actual fun get() = impl.get()
+    actual fun get() = delegate.get()
 
-    actual fun set(newValue: Int) = impl.set(newValue)
+    actual fun set(newValue: Int) = delegate.set(newValue)
 
-    actual fun incrementAndGet() = impl.incrementAndGet()
+    actual fun incrementAndGet() = delegate.incrementAndGet()
 
-    actual fun decrementAndGet() = impl.decrementAndGet()
+    actual fun decrementAndGet() = delegate.decrementAndGet()
 
-    actual fun addAndGet(delta: Int) = impl.addAndGet(delta)
+    actual fun addAndGet(delta: Int) = delegate.addAndGet(delta)
 
-    actual fun getAndIncrement() = impl.getAndIncrement()
+    actual fun getAndIncrement() = delegate.getAndIncrement()
 
-    actual fun getAndDecrement() = impl.getAndDecrement()
+    actual fun getAndDecrement() = delegate.getAndDecrement()
 
-    actual fun getAndAdd(delta: Int) = impl.getAndAdd(delta)
+    actual fun getAndAdd(delta: Int) = delegate.getAndAdd(delta)
 
-    override fun toString() = impl.toString()
+    override fun toString() = delegate.toString()
 
 }
