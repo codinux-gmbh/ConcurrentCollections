@@ -1,21 +1,6 @@
 package net.codinux.kotlin.concurrent.collections
 
-expect class ConcurrentMap<K, V>(): MutableMap<K, V> {
-
-    override val size: Int
-
-    override fun isEmpty(): Boolean
-
-
-    override fun get(key: K): V?
-
-    override fun put(key: K, value: V): V?
-
-    override fun remove(key: K): V?
-
-    override fun clear()
-
-}
+expect class ConcurrentMap<K, V>(): MutableMap<K, V>
 
 
 /**

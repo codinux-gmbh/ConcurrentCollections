@@ -7,16 +7,16 @@ actual open class ConcurrentMap<K, V>: MutableMap<K, V> {
     protected open val atomicMap = AtomicReference(mutableMapOf<K, V>())
 
 
-    actual override val size: Int
+    override val size: Int
         get() = atomicMap.value.size
 
-    actual override fun isEmpty(): Boolean = atomicMap.value.isEmpty()
+    override fun isEmpty(): Boolean = atomicMap.value.isEmpty()
 
 
-    actual override fun get(key: K): V? =
+    override fun get(key: K): V? =
         atomicMap.value[key]
 
-    actual override fun put(key: K, value: V): V? {
+    override fun put(key: K, value: V): V? {
         val previousValue = get(key)
 
         do {
@@ -38,7 +38,7 @@ actual open class ConcurrentMap<K, V>: MutableMap<K, V> {
         } while (atomicMap.compareAndSet(existing, updated) == false)
     }
 
-    actual override fun remove(key: K): V? {
+    override fun remove(key: K): V? {
         var previousValue: V?
 
         do {
@@ -51,7 +51,7 @@ actual open class ConcurrentMap<K, V>: MutableMap<K, V> {
         return previousValue
     }
 
-    actual override fun clear() {
+    override fun clear() {
         @Suppress("ControlFlowWithEmptyBody")
         while (atomicMap.compareAndSet(atomicMap.value, mutableMapOf()) == false) { }
     }
