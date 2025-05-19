@@ -1,6 +1,6 @@
 package net.codinux.kotlin.concurrent.collections
 
-expect class ConcurrentMap<K, V>(): Map<K, V> {
+expect class ConcurrentMap<K, V>(): MutableMap<K, V> {
 
     override val size: Int
 
@@ -9,11 +9,11 @@ expect class ConcurrentMap<K, V>(): Map<K, V> {
 
     override fun get(key: K): V?
 
-    fun put(key: K, value: V): V?
+    override fun put(key: K, value: V): V?
 
-    fun remove(key: K): V?
+    override fun remove(key: K): V?
 
-    fun clear()
+    override fun clear()
 
 }
 

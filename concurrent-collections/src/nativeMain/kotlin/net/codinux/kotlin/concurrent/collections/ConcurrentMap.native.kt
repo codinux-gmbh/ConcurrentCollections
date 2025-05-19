@@ -2,9 +2,9 @@ package net.codinux.kotlin.concurrent.collections
 
 import kotlin.concurrent.AtomicReference
 
-actual open class ConcurrentMap<K, V>: Map<K, V> {
+actual open class ConcurrentMap<K, V>: MutableMap<K, V> {
 
-    protected open val atomicMap = AtomicReference(mapOf<K, V>())
+    protected open val atomicMap = AtomicReference(mutableMapOf<K, V>())
 
 
     actual override val size: Int
@@ -16,7 +16,7 @@ actual open class ConcurrentMap<K, V>: Map<K, V> {
     actual override fun get(key: K): V? =
         atomicMap.value[key]
 
-    actual open fun put(key: K, value: V): V? {
+    actual override fun put(key: K, value: V): V? {
         val previousValue = get(key)
 
         do {
@@ -29,7 +29,16 @@ actual open class ConcurrentMap<K, V>: Map<K, V> {
         return previousValue
     }
 
-    actual open fun remove(key: K): V? {
+    override fun putAll(from: Map<out K, V>) {
+        do {
+            val existing = atomicMap.value
+
+            val updated = existing.toMutableMap()
+            updated.putAll(from)
+        } while (atomicMap.compareAndSet(existing, updated) == false)
+    }
+
+    actual override fun remove(key: K): V? {
         var previousValue: V?
 
         do {
@@ -42,19 +51,19 @@ actual open class ConcurrentMap<K, V>: Map<K, V> {
         return previousValue
     }
 
-    actual open fun clear() {
+    actual override fun clear() {
         @Suppress("ControlFlowWithEmptyBody")
-        while (atomicMap.compareAndSet(atomicMap.value, mapOf()) == false) { }
+        while (atomicMap.compareAndSet(atomicMap.value, mutableMapOf()) == false) { }
     }
 
 
-    override val entries: Set<Map.Entry<K, V>>
+    override val entries: MutableSet<MutableMap.MutableEntry<K, V>>
         get() = atomicMap.value.entries
 
-    override val keys: Set<K>
+    override val keys: MutableSet<K>
         get() = atomicMap.value.keys
 
-    override val values: Collection<V>
+    override val values: MutableCollection<V>
         get() = atomicMap.value.values
 
     override fun containsKey(key: K) = atomicMap.value.containsKey(key)

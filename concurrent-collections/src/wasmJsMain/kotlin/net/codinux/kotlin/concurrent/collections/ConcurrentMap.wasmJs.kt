@@ -1,6 +1,6 @@
 package net.codinux.kotlin.concurrent.collections
 
-actual class ConcurrentMap<K, V> actual constructor() : Map<K, V> {
+actual class ConcurrentMap<K, V> actual constructor() : MutableMap<K, V> {
 
     private val impl = LinkedHashMap<K, V>() // LinkedHashMap is final in WASM so we cannot derive from it
 
@@ -12,22 +12,24 @@ actual class ConcurrentMap<K, V> actual constructor() : Map<K, V> {
 
     actual override fun get(key: K): V? = impl[key]
 
-    actual fun put(key: K, value: V): V? = impl.put(key, value)
+    actual override fun put(key: K, value: V): V? = impl.put(key, value)
 
-    actual fun remove(key: K): V? = impl.remove(key)
+    override fun putAll(from: Map<out K, V>) = impl.putAll(from)
 
-    actual fun clear() {
+    actual override fun remove(key: K): V? = impl.remove(key)
+
+    actual override fun clear() {
         impl.clear()
     }
 
 
-    override val entries: Set<Map.Entry<K, V>>
+    override val entries: MutableSet<MutableMap.MutableEntry<K, V>>
         get() = impl.entries
 
-    override val keys: Set<K>
+    override val keys: MutableSet<K>
         get() = impl.keys
 
-    override val values: Collection<V>
+    override val values: MutableCollection<V>
         get() = impl.values
 
     override fun containsKey(key: K) = impl.containsKey(key)
