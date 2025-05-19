@@ -2,17 +2,18 @@ package net.codinux.kotlin.concurrent.collections
 
 import kotlin.concurrent.AtomicReference
 
-actual open class ConcurrentMap<K, V> {
+actual open class ConcurrentMap<K, V>: Map<K, V> {
 
     protected open val atomicMap = AtomicReference(mapOf<K, V>())
 
 
-    actual open val size: Int get() = atomicMap.value.size
+    actual override val size: Int
+        get() = atomicMap.value.size
 
-    actual open fun isEmpty(): Boolean = atomicMap.value.isEmpty()
+    actual override fun isEmpty(): Boolean = atomicMap.value.isEmpty()
 
 
-    actual open fun get(key: K): V? =
+    actual override fun get(key: K): V? =
         atomicMap.value[key]
 
     actual open fun put(key: K, value: V): V? {
@@ -45,5 +46,19 @@ actual open class ConcurrentMap<K, V> {
         @Suppress("ControlFlowWithEmptyBody")
         while (atomicMap.compareAndSet(atomicMap.value, mapOf()) == false) { }
     }
+
+
+    override val entries: Set<Map.Entry<K, V>>
+        get() = atomicMap.value.entries
+
+    override val keys: Set<K>
+        get() = atomicMap.value.keys
+
+    override val values: Collection<V>
+        get() = atomicMap.value.values
+
+    override fun containsKey(key: K) = atomicMap.value.containsKey(key)
+
+    override fun containsValue(value: V) = atomicMap.value.containsValue(value)
 
 }

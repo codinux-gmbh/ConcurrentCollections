@@ -1,13 +1,13 @@
 package net.codinux.kotlin.concurrent.collections
 
-expect class ConcurrentMap<K, V>() {
+expect class ConcurrentMap<K, V>(): Map<K, V> {
 
-    val size: Int
+    override val size: Int
 
-    fun isEmpty(): Boolean
+    override fun isEmpty(): Boolean
 
 
-    fun get(key: K): V?
+    override fun get(key: K): V?
 
     fun put(key: K, value: V): V?
 
