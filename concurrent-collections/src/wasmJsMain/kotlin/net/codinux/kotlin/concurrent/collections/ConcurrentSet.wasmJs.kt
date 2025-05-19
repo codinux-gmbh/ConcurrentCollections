@@ -3,7 +3,7 @@ package net.codinux.kotlin.concurrent.collections
 /**
  * JavaScript has only one thread, so no need to take care of any thread-safety structures
  */
-actual class ConcurrentSet<E> actual constructor() : Set<E> {
+actual class ConcurrentSet<E> actual constructor() : MutableSet<E> {
 
     private val impl = LinkedHashSet<E>() // LinkedHashSet is final in WASM so we cannot derive from it
 
@@ -14,11 +14,17 @@ actual class ConcurrentSet<E> actual constructor() : Set<E> {
     override fun isEmpty() = impl.isEmpty()
 
 
-    actual fun add(element: E): Boolean = impl.add(element)
+    override fun add(element: E): Boolean = impl.add(element)
 
-    actual fun remove(element: E): Boolean = impl.remove(element)
+    override fun addAll(elements: Collection<E>) = impl.addAll(elements)
 
-    actual fun clear() {
+    override fun remove(element: E): Boolean = impl.remove(element)
+
+    override fun removeAll(elements: Collection<E>) = impl.removeAll(elements)
+
+    override fun retainAll(elements: Collection<E>) = impl.retainAll(elements)
+
+    override fun clear() {
         impl.clear()
     }
 

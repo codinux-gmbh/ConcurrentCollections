@@ -2,9 +2,9 @@ package net.codinux.kotlin.concurrent.collections
 
 import kotlin.concurrent.AtomicReference
 
-actual open class ConcurrentSet<E> : Set<E> {
+actual open class ConcurrentSet<E> : MutableSet<E> {
 
-    protected open val atomicSet = AtomicReference(setOf<E>())
+    protected open val atomicSet = AtomicReference(mutableSetOf<E>())
 
 
     override val size: Int
@@ -13,7 +13,7 @@ actual open class ConcurrentSet<E> : Set<E> {
     override fun isEmpty() = atomicSet.value.isEmpty()
 
 
-    actual fun add(element: E): Boolean {
+    override fun add(element: E): Boolean {
         if (contains(element)) {
             return false
         }
@@ -28,7 +28,20 @@ actual open class ConcurrentSet<E> : Set<E> {
         return true
     }
 
-    actual fun remove(element: E): Boolean {
+    override fun addAll(elements: Collection<E>): Boolean {
+        var result: Boolean
+
+        do {
+            val existing = atomicSet.value
+
+            val updated = existing.toMutableSet()
+            result = updated.addAll(elements)
+        } while (atomicSet.compareAndSet(existing, updated) == false)
+
+        return result
+    }
+
+    override fun remove(element: E): Boolean {
         var removeResult: Boolean
 
         do {
@@ -41,9 +54,35 @@ actual open class ConcurrentSet<E> : Set<E> {
         return removeResult
     }
 
-    actual fun clear() {
+    override fun removeAll(elements: Collection<E>): Boolean {
+        var result: Boolean
+
+        do {
+            val existing = atomicSet.value
+
+            val updated = existing.toMutableSet()
+            result = updated.removeAll(elements)
+        } while (atomicSet.compareAndSet(existing, updated) == false)
+
+        return result
+    }
+
+    override fun retainAll(elements: Collection<E>): Boolean {
+        var result: Boolean
+
+        do {
+            val existing = atomicSet.value
+
+            val updated = existing.toMutableSet()
+            result = updated.retainAll(elements)
+        } while (atomicSet.compareAndSet(existing, updated) == false)
+
+        return result
+    }
+
+    override fun clear() {
         @Suppress("ControlFlowWithEmptyBody")
-        while (atomicSet.compareAndSet(atomicSet.value, setOf()) == false) { }
+        while (atomicSet.compareAndSet(atomicSet.value, mutableSetOf()) == false) { }
     }
 
 
