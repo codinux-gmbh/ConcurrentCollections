@@ -12,7 +12,7 @@ and `AtomicReference` for Kotlin Multiplatform.
 ### Gradle
 
 ```
-implementation("net.codinux.collections:concurrent-collections:1.0.0")
+implementation("net.codinux.collections:concurrent-collections:1.1.0")
 ```
 
 ### Maven
@@ -21,7 +21,7 @@ implementation("net.codinux.collections:concurrent-collections:1.0.0")
 <dependency>
    <groupId>net.codinux.collections</groupId>
    <artifactId>concurrent-collections-jvm</artifactId>
-   <version>1.0.0</version>
+   <version>1.1.0</version>
 </dependency>
 ```
 
